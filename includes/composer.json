@@ -1,0 +1,10 @@
+{
+  "require": {
+    "twig/twig": "^3.5",
+    "yahnis-elsts/plugin-update-checker": "^5.0",
+    "components/font-awesome": "4.7.0",
+    "twbs/bootstrap-icons": "^1.10",
+    "ext-json": "*",
+    "ext-intl": "*"
+  }
+}

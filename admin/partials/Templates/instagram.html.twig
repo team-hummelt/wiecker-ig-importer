@@ -1,0 +1,109 @@
+<div class="wiecker-ig-importer">
+    <div class="container">
+        <div class="card card-license shadow-sm position-relative">
+            <h5 class="card-header d-flex align-items-center text-white bg-orange py-4">
+                <i class="bi bi-instagram d-block" style="font-size: 2rem"></i>&nbsp;
+                WP-Instagram Import </h5>
+            <div class="card-body pb-4" style="min-height: 55vh">
+                <div class="col-12 mx-auto">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light py-3 fs-5">
+                            <i class="bi bi-tools me-1"></i>
+                            Import Einstellungen
+                        </div>
+                        <div class="card-body" style="min-height: 45vh">
+                            <div class="d-flex flex-wrap align-items-center">
+                                <button data-type="plugin_settings" data-target="#colImportSettings"
+                                        data-parent="#collParent" class="btn-toggle btn btn-blue-outline me-1 my-1"
+                                        disabled>
+                                    <i class="bi bi-gear me-1"></i>Synchronisation-Einstellungen
+                                </button>
+                                <button data-type="oauth_settings" data-target="#colOauthSettings"
+                                        data-parent="#collParent" class="btn-toggle btn btn-blue-outline me-1 my-1">
+                                    <i class="bi bi-incognito me-1"></i>oAuth
+                                </button>
+                                <button data-type="app_help" data-bs-target="#colImportHelp" data-bs-toggle="collapse"
+                                        class="btn-toggle btn btn-blue-outline ms-auto my-1">
+                                    <i class="bi bi-lightbulb me-1"></i>Hilfe
+                                </button>
+                            </div>
+                            <div id="collParent">
+                                <div id="colOauthSettings" data-bs-parent="#collParent" class="collapse"></div>
+                                <div id="colImportSettings" data-bs-parent="#collParent" class="collapse show"></div>
+                                <div id="colImportHelp" data-bs-parent="#collParent" class="collapse">
+                                    <div class="card mt-4">
+                                        <div class="card-header fs-4 bg-light py-3">
+                                              <i class="bi bi-lightbulb text-orange me-1"></i>
+                                                Hilfe
+                                        </div>
+                                        <div class="card-body">
+                                            <hr>
+                                            <h5 class="fw-semibold mb-3">Verfügbare Metadaten:</h5>
+                                            <ul class="list-unstyled">
+                                                <li><code>_instagram_id</code></li>
+                                                <li><code>_instagram_permalink</code></li>
+                                                <li><code>_instagram_media_url</code></li>
+                                                <li><code>_instagram_thumbnail_url</code></li>
+                                                <li><code>_instagram_caption</code></li>
+                                                <li><code>_instagram_media_type_instagram_media_type</code></li>
+                                                <li><code>_instagram_timestamp</code></li>
+                                                <li><code>_instagram_username</code></li>
+                                            </ul>
+                                            <hr>
+
+                                            <h5 class="fw-semibold">Metadaten abrufen:</h5>
+                                            <p>
+                                                <b class="fw-semibold"> Filter alle Metadaten:</b><br>
+                                                apply_filters('wiecker-ig-importer/get_instagram_import_meta',
+                                                <code>POST-ID</code>);
+                                            </p>
+                                            <p>
+                                                <b class="fw-semibold"> Filter Metadaten einzeln:</b><br>
+                                                apply_filters('wiecker-ig-importer/get_instagram_import_meta',
+                                                <code>POST-ID</code>,
+                                                <code>'META
+                                                    BEZEICHNUNG'</code>);
+                                            </p>
+                                            <hr>
+                                            <h5 class="fw-semibold">Gutenberg-Block Callback Funktion aufrufen:</h5>
+
+                                            <pre>
+                     <br>
+function <span class="text-danger">meine_callback_function</span>($posts, $attributes, $meta, $term)<br>
+{<br>
+    ob_start();<br>
+    global $posts;<br><br>
+                     <span class="text-danger">print_r($posts);</span><br>
+                     <span class="text-danger">print_r($attributes);</span><br>
+                     <span class="text-danger">print_r($meta);</span><br>
+                     <span class="text-danger">print_r($term);</span><br>
+                     <i class="text-primary">echo meine Template-Ausgabe</i><br><br>
+     return ob_get_clean();<br>
+}<br><br><br>
+
+if(is_plugin_active('wiecker-ig-importer/wiecker-ig-importer.php')){<br>
+                     add_filter('gutenberg_block_instagram_importer_callback', '<code class="text-danger">meine_callback_function</code>', 100, 4);<br>
+}<br>
+                 </pre>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-0 end-0 position-absolute my-1 me-3 text-end">
+                <small class="small-xl">
+                    DB: <span class="text-danger">v{{ db }}</span>
+                    | </small>
+                <small class="small-xl">
+                    Version: <span class="text-danger">v{{ version }}</span>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="snackbar-success"></div>
+<div id="snackbar-warning"></div>

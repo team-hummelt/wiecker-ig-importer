@@ -1,0 +1,9 @@
+.idea
+.github
+.vscode
+/includes/vendor/twbs/bootstrap-icons/icons/
+/includes/vendor/twbs/bootstrap-icons/docs/
+includes/Gutenberg/Sidebar/node_modules/
+includes/Gutenberg/Sidebar/src/
+includes/Gutenberg/Block/src/
+includes/Gutenberg/Block/node_modules/

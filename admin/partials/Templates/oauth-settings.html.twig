@@ -1,0 +1,69 @@
+<div class="col-12 mx-auto mt-4">
+    <div class="card">
+        <div class="card-header bg-custom-gray d-flex align-items-center py-3">
+            <div class="fs-5">
+                <i class="bi bi-instagram me-1"></i>
+                oAuth Einstellungen
+            </div>
+            <div class="oauth ms-auto ajax-status-spinner"></div>
+        </div>
+        <div class="card-body">
+            <form class="instagram-autosafe-form" data-target=".oauth">
+                <input type="hidden" name="method" value="oauth_import_settings_handle">
+                <div class="row g-3">
+                    <div class="col-xl-6 col-12">
+                        <div class="form-floating readonly">
+                            <input type="url" class="form-control no-blur dblclick"
+                                   value="{% if callback_url is defined %}{{ callback_url }}{% endif %}"
+                                   name="callback_url" id="inputOauthUrl"
+                                   placeholder="Callback Url" required readonly>
+                            <label for="inputOauthUrl">oAuth Callback Url <sup>*</sup></label>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-12"></div>
+                    <div class="col-xl-6 col-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control no-blur"
+                                   value="{% if app_id is defined %}{{ app_id }}{% endif %}"
+                                   name="app_id" id="inputAppId"
+                                   placeholder="APP ID">
+                            <label for="inputAppId">APP ID</label>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control no-blur"
+                                   value="{% if app_secret is defined %}{{ app_secret }}{% endif %}"
+                                   name="app_secret" id="inputAppSecret"
+                                   placeholder="APP SECRET">
+                            <label for="inputAppSecret">APP SECRET</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating readonly">
+                            <input type="text" class="form-control no-blur dblclick"
+                                   value="{% if access_token is defined %}{{ access_token }}{% endif %}"
+                                   name="access_token" id="inputAppToken"
+                                   >
+                            <label for="inputAppToken">Access Token</label>
+                        </div>
+                    </div>
+                    <div id="btnSync" class="col-12 {% if not access_token %}d-none{% endif %}">
+                        <button type="button" class="sync-instagram-media btn btn-blue">
+                            <i class="bi bi-instagram me-1"></i>
+                            jetzt Synchronisieren
+                        </button>
+                        {#  <a id="oAuthCallbackUrl" target="_blank"
+                           href="https://api.instagram.com/oauth/authorize?client_id={{ app_id }}&redirect_uri={{ callback_url }}/&scope=user_profile,user_media
+  &response_type=code" class="btn btn-primary {% if not app_id or authentifiziert %}disabled{% endif %}"
+                           {% if not app_id or authentifiziert %}disabled{% endif %}>
+                            <i class="bi bi-instagram me-1"></i>
+                            Jetzt Authentifizieren
+                        </a>#}
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

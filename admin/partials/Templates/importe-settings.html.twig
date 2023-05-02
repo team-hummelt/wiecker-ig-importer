@@ -1,0 +1,117 @@
+<div class="col-12 mx-auto mt-4">
+        <div class="card">
+            <div class="card-header fs-5 bg-custom-gray d-flex align-items-center py-3">
+                <div>
+                    <i class="bi bi-instagram me-1"></i>
+                    Synchronisation-Einstellungen</div>
+            </div>
+            <form class="igi-submit-admin-form">
+                <input type="hidden" name="method" value="update_plugin_settings">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap align-items-center">
+                        <div class="form-check form-switch me-4">
+                            <input class="form-check-input no-blur" name="cron_aktiv"
+                                   type="checkbox" role="switch" id="checkCronAktiv"
+                                   {% if s.cron_aktiv %}checked{% endif %}>
+                            <label class="form-check-label" for="checkCronAktiv">Cronjob aktiv</label>
+                        </div>
+                        <div class="form-check form-switch me-4">
+                            <input class="form-check-input no-blur" name="cron_update_post"
+                                   type="checkbox" role="switch" id="checkCronUpdateAktiv"
+                                   {% if s.cron_update_post %}checked{% endif %}>
+                            <label class="form-check-label" for="checkCronUpdateAktiv">Beitrag Update bei vorhandener Instagram ID</label>
+                        </div>
+                    </div>
+                    {% if s.cron_aktiv %}
+                        <div class="form-text mt-2">
+                            <span class="d-block">nächste Synchronisierung am {{ dateTime|date('d.m.Y') }} um {{ dateTime|date('H:i:s') }} Uhr</span>
+                            <i class="bi bi-clock-history text-success me-1"></i><span id="nextSyncTime"></span>
+                        </div>
+                    {% endif %}
+                    <hr>
+                    <div class="row g-3">
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select no-blur mw-100" name="term_id"
+                                        id="selectTermId"
+                                        aria-label="select Synchronisierungsintervall">
+                                    {% for t in select.select_taxonomy %}
+                                        <option value="{{ t.term_id }}"
+                                                {% if s.term_id == t.term_id %}selected{% endif %}>{{ t.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="selectTermId">Import Kategorie</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select no-blur mw-100" name="max_post_sync_selected"
+                                        id="selectMaxSync"
+                                        aria-label="select Synchronisierungsintervall">
+                                    {% for ms in select.select_max_sync %}
+                                        <option value="{{ ms.value }}"
+                                                {% if s.max_post_sync_selected == ms.value %}selected{% endif %}>{{ ms.value }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="selectMaxSync">Max. Instagram Beiträge pro Synchronisation</label>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select no-blur mw-100" name="selected_cron_sync_interval"
+                                        id="selectInterval"
+                                        aria-label="select Synchronisierungsintervall">
+                                    {% for iv in select.select_api_sync_interval %}
+                                        <option value="{{ iv.id }}"
+                                                {% if s.selected_cron_sync_interval == iv.id %}selected{% endif %}>{{ iv.bezeichnung }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="selectInterval">Synchronisierungsintervall</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select no-blur mw-100" name="plugin_min_role"
+                                        id="selectUserRole"
+                                        aria-label="select mindestanforderung">
+                                    {% for ur in select.select_user_role %}
+                                        <option value="{{ ur.value }}"
+                                                {% if s.selected_user_role == ur.value %}selected{% endif %}>{{ ur.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="selectUserRole">Mindestvoraussetzung für die Verwendung dieses
+                                    Plugins</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex flex-wrap align-items-center">
+                                <div class="form-check form-switch me-4 my-1">
+                                    <input class="form-check-input no-blur" name="bootstrap_css_aktiv" type="checkbox"
+                                           role="switch"
+                                           id="checkBsCss" {% if s.bootstrap_css_aktiv %}checked{% endif %}>
+                                    <label class="form-check-label" for="checkBsCss">Frontend Bootstrap CSS
+                                        aktiv</label>
+                                </div>
+                                <div class="form-check form-switch my-1">
+                                    <input class="form-check-input no-blur" name="bootstrap_js_aktiv" type="checkbox"
+                                           role="switch"
+                                           id="checkBsJs" {% if s.bootstrap_js_aktiv %}checked{% endif %}>
+                                    <label class="form-check-label" for="checkBsJs">Frontend Bootstrap JS aktiv</label>
+                                </div>
+                            </div>
+                            <div class="form-text">
+                                CSS Klasse für Wrapper: <code>.wiecker-ig-importer</code>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue mt-3">
+                                <i class="bi bi-save2 me-1"></i>
+                                Speichern
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

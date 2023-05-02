@@ -1,0 +1,244 @@
+
+<div class="bg-light card-body shadow-sm my-4 border rounded">
+    {% if handle == 'update' %}
+        <button data-type="backToTable" class="rss-action btn btn-blue-outline btn-sm">
+            <i class="bi bi-reply-all-fill me-1"></i>
+            {{ 'back'|__ }}
+        </button>
+        <button data-type="collapse-icon" data-bs-target="#colChannel" data-bs-toggle="collapse"
+                class="rss-action btn btn-blue-outline btn-sm">
+            <i class="bi bi-arrows-expand"></i>
+            {{ 'Channel'|__ }}
+        </button>
+        <div id="colChannel" class="collapse">
+            <hr>
+            <div class="row g-2">
+                <div class="col-xl-6 col-12">
+                    <div class="card-body bg-white border rounded h-100">
+                        <div class="fw-semibold mb-2">{{ 'Channel Title'|__ }}<br>
+                            <span class="form-text">
+                   {% if i.rss_channel.title %} {{ i.rss_channel.title }}{% else %}{{ 'no data'|__ }}{% endif %}
+                    </span>
+                        </div>
+                        <div class="fw-semibold mb-2">{{ 'Channel Link'|__ }}<br>
+                            <span class="form-text">
+                            {% if i.rss_channel.link %} <a target="_blank"
+                                                           href="{{ i.rss_channel.link }}">{{ i.rss_channel.link }}</a>{% else %}{{ 'no data'|__ }}{% endif %}
+                    </span>
+                        </div>
+                        <div class="fw-semibold mb-2">{{ 'Channel language'|__ }}<br>
+                            <span class="form-text">
+                         {% if i.rss_channel.language %} {{ i.rss_channel.language }}{% else %}{{ 'no data'|__ }}{% endif %}
+                    </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-12">
+                    <div class="card-body bg-white border rounded h-100">
+                        <div class="fw-semibold mb-2">{{ 'Date of publication'|__ }}<br>
+                            <span class="form-text">
+                             {% if i.rss_channel.pubDate %}{{ i.rss_channel.pubDate|date('d.m.Y H:i:s') }}{% else %}{{ 'no data'|__ }}{% endif %}
+
+                    </span>
+                        </div>
+                        <div class="fw-semibold mb-2">{{ 'last publication date'|__ }}<br>
+                            <span class="form-text">
+                            {% if i.rss_channel.lastBuildDate %}{{ i.rss_channel.lastBuildDate|date('d.m.Y H:i:s') }}{% else %}{{ 'no data'|__ }}{% endif %}
+                    </span>
+                        </div>
+                        <div class="fw-semibold mb-2">{{ 'Copyright'|__ }}<br>
+                            <span class="form-text">
+                           {% if i.rss_channel.copyright %} {{ i.rss_channel.copyright }}{% else %}{{ 'no data'|__ }}{% endif %}
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    {% endif %}
+    <h5>{% if handle == 'insert' %}{{ 'import new RSS feed'|__ }}{% else %}{{ 'Edit RSS feed'|__ }}{% endif %} </h5>
+    <hr>
+    <form class="rss-feed-cron-form">
+        <input type="hidden" name="method" value="rss_import_handle">
+        <input type="hidden" name="handle" value="{{ handle }}">
+        <input type="hidden" name="id" value="{% if i.id is defined %}{{ i.id }}{% endif %}">
+        <div class="row g-3">
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <input type="text" class="form-control no-blur"
+                           value="{% if i.bezeichnung is defined %}{{ i.bezeichnung }}{% endif %}"
+                           name="bezeichnung" id="inputBezeichnung"
+                           placeholder="Bezeichnung" required>
+                    <label for="inputBezeichnung">{{ 'Import name'|__ }} <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-xl-6 col-12"></div>
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <input type="url" class="form-control no-blur"
+                           value="{% if i.source is defined %}{{ i.source }}{% endif %}"
+                           name="source" id="inputSource"
+                           placeholder="RSS Feed Url" required>
+                    <label for="inputSource">{{ 'RSS Feed Url'|__ }} <sup>*</sup></label>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-12">
+                <div class="row g-3">
+
+                    <div class="col-xl-6 col-12">
+                        <div class="form-floating ">
+                            <input type="date" class="form-control no-blur"
+                                   value="{% if i.date_from is defined %}{{ i.date_from }}{% endif %}"
+                                   name="date_from" id="inputFilterFrom"
+                                   placeholder="von">
+                            <label for="inputFilterFrom">{{ 'from'|__ }}</label>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-12">
+                        <div class="form-floating">
+                            <input type="date" class="form-control no-blur"
+                                   value="{% if i.date_to is defined %}{{ i.date_to }}{% endif %}"
+                                   name="date_to" id="inputFilterTo"
+                                   placeholder="bis">
+                            <label for="inputFilterTo">{{ 'to'|__ }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-text">
+                    {{ 'Filter by time period'|__ }}
+                </div>
+            </div>
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <select class="form-select no-blur mw-100" name="post_type" id="selectPostType"
+                            aria-label="Post Type" required>
+                        {% for pt in types.post_type %}
+                            <option value="{{ pt.post_type }}#{{ pt.taxonomie }}"
+                                    {% if i.post_type is defined and i.post_type == pt.post_type %}selected{% endif %}>{{ pt.label }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="selectPostType">{{ 'Post Type'|__ }} <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <select class="form-select no-blur mw-100" name="post_taxonomy" id="selectPostTaxonomy"
+                            aria-label="Post Taxonomy" required>
+                        {% for pta in types.post_taxonomies %}
+                            <option value="{{ pta.term_id }}"
+                                    {% if i.post_taxonomy is defined and i.post_taxonomy == pta.term_id %}selected{% endif %}>{{ pta.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="selectPostTaxonomy">{{ 'Post Taxonomy'|__ }} <small>({{ 'Category'|__ }})</small> <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <select class="form-select no-blur mw-100" name="post_status" id="selectPostStatus"
+                            aria-label="Post Status" required>
+                        {% for sps in s.select_post_status %}
+                            <option value="{{ sps.id }}"
+                                    {% if i.post_status is defined and i.post_status == sps.id %}selected{% endif %}>{{ sps.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="selectPostStatus">{{ 'Post Status'|__ }} <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <select class="form-select no-blur mw-100" name="post_title" id="selectPostTitle"
+                            aria-label="Post Titel" required>
+                        {% for st in s.select_post_title %}
+                            <option value="{{ st.id }}"
+                                    {% if i.post_title is defined and i.post_title == st.id %}selected{% endif %}>{{ st.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="selectPostTitle">{{ 'Post Title'|__ }} <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <select class="form-select no-blur mw-100" name="post_content" id="selectPostContent"
+                            aria-label="Post content" required>
+                        {% for spc in s.select_post_content %}
+                            <option value="{{ spc.id }}"
+                                    {% if i.post_content is defined and i.post_content == spc.id %}selected{% endif %}>{{ spc.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="selectPostContent">{{ 'Post content'|__ }} <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <select class="form-select no-blur mw-100" name="post_date" id="selectPostDate"
+                            aria-label="Post Datum" required>
+                        {% for spd in s.select_post_date %}
+                            <option value="{{ spd.id }}"
+                                    {% if i.post_date is defined and i.post_date == spd.id %}selected{% endif %}>{{ spd.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="selectPostDate">{{ 'Post date'|__ }} <sup>*</sup></label>
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="form-floating">
+                    <select class="form-select no-blur mw-100" name="max_post_sync_selected" id="selectSyncCron"
+                            aria-label="select sync pro cron">
+                        {% for sy in s.max_post_sync %}
+                            <option value="{{ sy.value }}"
+                                    {% if i.max_cron_import is defined and i.max_cron_import == sy.value %}selected{% endif %}>{{ sy.value }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="selectSyncCron">{{ 'Import posts per update'|__ }}</label>
+                </div>
+            </div>
+            <div class="col-xl-6 col-12">
+                <div class="form-floating">
+                    <input type="number" class="form-control no-blur"
+                           value="{% if i.delete_old_post is defined %}{{ i.delete_old_post }}{% endif %}"
+                           name="auto_delete" id="inputAutoDelete"
+                           placeholder="Automatisch löschen">
+                    <label for="inputAutoDelete">{{ 'Delete automatically'|__ }} <small>({{ 'Number of days'|__ }})</small> <sup
+                                class="text-danger small">(1)</sup></label>
+                </div>
+                <div class="form-text">
+                    {{ 'Useful if you want to remove obsolete articles automatically. If the entry remains empty, the imported articles will not be deleted automatically.'|__ }}
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-flex flex-wrap">
+                    <div class="form-check form-switch me-5">
+                        <input class="form-check-input no-blur" name="aktiv"
+                               type="checkbox" role="switch" id="checkAktiv"
+                               {% if i.active is defined and i.active %}checked{% endif %}>
+                        <label class="form-check-label" for="checkAktiv">{{ 'Import active'|__ }}</label>
+                    </div>
+                    <div class="form-check form-switch me-5">
+                        <input class="form-check-input no-blur" name="delete_double" type="checkbox" role="switch"
+                               id="checkDouble"
+                               {% if i.remove_duplicate is defined and i.remove_duplicate %}checked{% endif %}>
+                        <label class="form-check-label" for="checkDouble">{{ 'Remove duplicate entries'|__ }}</label>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-text">
+                    <small class="small text-danger">(1)</small> {{ 'Delete items created for this import after a specified number of days.'|__ }}
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-blue">
+                    <i class="bi bi-save2 me-1"></i>
+                    {{ 'Save'|__ }}
+                </button>
+                {% if handle == 'update' %}
+                <button type="button" data-type="backToTable" class="rss-action border btn btn-light">
+                    <i class="bi bi-x-circle text-danger me-1"></i>
+                    {{ 'Cancel'|__ }}
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+    </form>
+</div>
