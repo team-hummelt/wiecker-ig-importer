@@ -411,6 +411,11 @@ class Wiecker_Ig_Importer
         $this->loader->add_action('init', $plugin_admin, 'set_instagram_oauth_trigger');
         $this->loader->add_action('template_redirect', $plugin_admin, 'instagram_importer_oauth_trigger_check');
 
+        //JOB UPDATE CHECKER
+        $this->loader->add_action('init', $plugin_admin, 'instagram_importer_update_checker');
+        $this->loader->add_action('in_plugin_update_message-' . WP_INSTAGRAM_IMPORTER_SLUG_PATH . '/' . WP_INSTAGRAM_IMPORTER_SLUG_PATH . '.php', $plugin_admin, 'instagram_importer_show_upgrade_notification', 10, 2);
+
+
         $registerWpInstagramEndpoint = new WP_Instagram_Importer_Rest_Endpoint($this->plugin_name, $this->main);
         $this->loader->add_action('rest_api_init', $registerWpInstagramEndpoint, 'register_wp_instagram_importer_routes');
 

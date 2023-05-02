@@ -15,6 +15,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use WiIg\Importer\CronSettings;
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -188,7 +189,7 @@ class Wiecker_Ig_Importer_Admin
     {
 
         if (get_option("{$this->basename}_update_config") && get_option($this->basename . '_update_config')->update->update_aktiv) {
-            $securityHeaderUpdateChecker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+            $securityHeaderUpdateChecker = PucFactory::buildUpdateChecker(
                 get_option("{$this->basename}_update_config")->update->update_url_git,
                 WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $this->basename . DIRECTORY_SEPARATOR . $this->basename . '.php',
                 $this->basename
