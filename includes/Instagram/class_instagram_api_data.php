@@ -90,8 +90,7 @@ class Instagram_Api_Data
             return $return;
         }
 
-        $apiData = json_decode($response['body'], true);
-        $return->record = $apiData;
+        $return->record = json_decode($response['body'], true);
         $return->status = true;
         return $return;
     }
@@ -120,7 +119,7 @@ class Instagram_Api_Data
         }
 
         $access_token = $oauth['access_token'];
-        $url = sprintf('https://graph.instagram.com/me/media?fields=id,media_type,permalink,media_url,thumbnail_url,username,timestamp&access_token=%s', $access_token);
+        $url = sprintf('https://graph.instagram.com/me/media?fields=id,media_type,permalink,media_url,caption,thumbnail_url,username,timestamp&access_token=%s', $access_token);
         if ($instagram_url) {
             $url = $instagram_url;
         }
@@ -144,14 +143,15 @@ class Instagram_Api_Data
 
                 $date = date('Y-m-d H:i:s', strtotime($tmp['timestamp']));
                 $username = str_replace(['_',' '],'-',$tmp['username']);
+                $tmp['caption'] ? $content = nl2br($tmp['caption']) : $content = '';
                 $args = [
                     'post_type' => 'instagram',
                     'post_title' => $username . '_' . date('d-m-Y_H-i-s', strtotime($tmp['timestamp'])),
-                    'post_content' => $tmp['username'] . '_' . date('d-m-Y_H-i', strtotime($tmp['timestamp'])),
+                    'post_content' => $content,
                     'post_status' => 'publish',
                     'post_category' => array((int)$settings['term_id']),
                     'comment_status' => 'closed',
-                    'post_excerpt' => 'Instagram ' . date('d-m-Y H:i', strtotime($tmp['timestamp'])),
+                    'post_excerpt' => $tmp['caption'] ?? '',
                     'post_date' => $date,
                     'meta_input' => [
                         '_instagram_id' => $tmp['id'],

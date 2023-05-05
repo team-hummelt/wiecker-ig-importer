@@ -1,9 +1,11 @@
 <div class="wiecker-ig-importer">
     <div class="container">
         <div class="card card-license shadow-sm position-relative">
-            <h5 class="card-header d-flex align-items-center text-white bg-orange py-4">
-                <i class="bi bi-instagram d-block" style="font-size: 2rem"></i>&nbsp;
-                WP-Instagram Import </h5>
+            <div class="fs-5 card-header d-flex align-items-center bg-orange text-white py-4">
+                <i class="bi bi-instagram d-block me-2" style="font-size: 2rem"></i>&nbsp;
+                <span>WP-Instagram Import</span>
+                <small class="ms-auto small-lg">Free-Version</small>
+            </div>
             <div class="card-body pb-4" style="min-height: 55vh">
                 <div class="col-12 mx-auto">
                     <div class="card shadow-sm">
@@ -95,11 +97,11 @@ if(is_plugin_active('wiecker-ig-importer/wiecker-ig-importer.php')){<br>
                 </div>
             </div>
             <div class="bottom-0 end-0 position-absolute my-1 me-3 text-end">
-                <small class="small-xl">
+                {#  <small class="small-xl">
                     DB: <span class="text-danger">v{{ db }}</span>
-                    | </small>
+                    | </small>#}
                 <small class="small-xl">
-                    Version: <span class="text-danger">v{{ version }}</span>
+                    Version: <span class="text-danger">v{{ version }} <span class="text-secondary"> Free</span></span>
                 </small>
             </div>
         </div>
